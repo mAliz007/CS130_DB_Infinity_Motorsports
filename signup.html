@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup | Car Showroom</title>
+  <link rel="stylesheet" href="signup.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+      <label for="cnic">CNIC</label>
+      <input type="text" id="cnic" name="cnic" required  pattern="^\d{13}$" />
+
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required />
+
+      <label for="phoneNumber">Phone Number</label>
+      <input type="tel" id="phoneNumber" name="phoneNumber" required pattern="^03\d{9}$"/>
+
+      <label for="address">Address</label>
+      <textarea id="address" name="address" required></textarea>
+
+      <input type="submit" value="Sign Up" />
+    </form>
+    <p>Already have an account? <a href="index.html">Login</a></p>
+  </div>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const userData = {
+        cnic: document.getElementById("cnic").value,
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: password,
+        number: document.getElementById("phoneNumber").value,
+        address: document.getElementById("address").value
+      };
+
+      try {
+        const response = await fetch("http://localhost:3000/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData)
+        });
+
+        const data = await response.json();
+        alert(data.message);
+
+        if (response.ok) {
+          // Clear form and redirect to login
+          document.getElementById("signupForm").reset();
+          window.location.href = "index.html";
+        }
+      } catch (error) {
+        alert("Signup failed. Please try again.");
+        console.error("Signup error:", error);
+      }
+    });
+  </script>
+</body>
+</html>

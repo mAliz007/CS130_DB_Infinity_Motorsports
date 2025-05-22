@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="navBar.css"/>
+  <link rel="stylesheet" href="cars.css"/>
+  <script src="index.js"></script>
+  <title>Admin Home</title>
+
+ <style>
+
+   #salesh {
+  text-align: center;
+  margin-top: 20px;
+  color: navy;
+}
+
+    .filter-buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .filter-buttons button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      background-color: #003366;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .filter-buttons button:hover {
+      background-color: #002244;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #003366;
+      color: white;
+    }
+
+    td {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+
+<div id="headerIndex">
+  <button class="openbtn" onclick="openNav()"><i class="fas fa-bars"></i></button>
+  <div id="myDiv">
+    <a href="home.html">
+      <img src="Screenshot 2025-03-08 145444.png" alt="Infinity Motorsports" style="border: solid 1px goldenrod;">
+    </a>
+    <h2>Infinity Motorsports</h2>
+  </div>
+  <div id="myDiv">
+    <button onclick="logout()" id="login">Logout</button>
+  </div>
+</div>
+
+<h2 id="salesh">Sales Records</h2>
+<div class="filter-buttons">
+  <button onclick="loadSales('car')">Car Sales</button>
+  <button onclick="loadSales('bike')">Bike Sales</button>
+</div>
+
+<table id="salesTable">
+  <thead>
+    <tr>
+      <th>Sale ID</th>
+      <th>Date</th>
+      <th>Bank Account</th>
+      <th>Customer Name</th>
+      <th>Customer Email</th>
+      <th>Vehicle</th>
+      <th>Company</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  </thead>
+  <tbody>
+    <!-- Sales data rows will be populated here -->
+  </tbody>
+</table>
+
+<div id="footerIndex">
+  <h2>Please Be Cautious While Using The Admin Portal</h2>
+</div>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='admin-home.html'>Home</a>
+  <a href="add-car.html">Add a Car</a>
+  <a href="add-bike.html">Add a Bike</a>
+  <a href="add-warranty.html">Add Warranty Package</a>
+  <a href="add-insurance.html">Add Insurance Package</a>
+  <a href="sales.html">View Sales</a>
+  <a href="customers.html">View Customers</a>
+  <a href="admin-testdrives.html">Upcoming Test Drives</a>
+</div>
+
+
+
+<script>
+  async function loadSales(type) {
+    const url = type === 'car' ? '/api/car-sales' : '/api/bike-sales';
+    const res = await fetch(`http://localhost:3000${url}`);
+    const data = await res.json();
+    const tbody = document.querySelector("#salesTable tbody");
+    tbody.innerHTML = "";
+
+    data.sales.forEach(sale => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${sale.sale_id}</td>
+        <td>${new Date(sale.sale_date).toLocaleDateString()}</td>
+        <td>${sale.bank_account}</td>
+        <td>${sale.name}</td>
+        <td>${sale.email}</td>
+        <td>${sale.vehname || sale.vehname}</td>
+        <td>${sale.model}</td>
+        <td>$${Number(sale.price).toLocaleString()}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+     window.addEventListener("DOMContentLoaded", () => {
+    loadSales('car');
+  });
+
+</script>
+</body>
+</html>

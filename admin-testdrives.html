@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="navBar.css"/>
+  <script src="index.js"></script>
+  <title>Upcoming Test Drives</title>
+  <style>
+
+    .heading {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .heading h1 {
+      font-size: 2rem;
+      color: #003366; /* Dark Navy */
+    }
+
+    .testdrive-container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    table, th, td {
+      border: 1px solid #003366; /* Dark Navy */
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #003366; /* Dark Navy */
+      color: white;
+    }
+
+    td {
+      background-color: #f9f9f9;
+    }
+    .testdrive-container {
+  max-width: 1200px; /* or 100% */
+  margin: auto;
+  padding: 20px;
+}
+
+  </style>
+</head>
+<body>
+
+<div id="headerIndex">
+  <button class="openbtn" onclick="openNav()"><i class="fas fa-bars"></i></button>
+  <div id="myDiv">
+    <a href="admin-home.html">
+      <img src="Screenshot 2025-03-08 145444.png" alt="Infinity Motorsports" style="border: solid 1px goldenrod;">
+    </a>
+    <h2>Infinity Motorsports</h2>
+  </div>
+  <div id="myDiv">
+    <button onclick="logout()" id="login">Logout</button>
+  </div>
+</div>
+
+<div class="heading">
+  <h1>Upcoming Test Drives</h1>
+</div>
+
+<div class="testdrive-container" id="testdriveList">
+  <!-- Test Drive Table will be populated here -->
+</div>
+
+<div id="footerIndex">
+  <h2>Please Attend All Scheduled Test Drives</h2>
+</div>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='admin-home.html'>Home</a>
+  <a href="add-car.html">Add a Car</a>
+  <a href="add-bike.html">Add a Bike</a>
+  <a href="add-warranty.html">Add Warranty Package</a>
+  <a href="add-insurance.html">Add Insurance Package</a>
+  <a href="sales.html">View Sales</a>
+  <a href="customers.html">View Customers</a>
+  <a href="admin-testdrives.html">Upcoming Test Drives</a>
+</div>
+
+<script>
+  function openNav() {
+    document.getElementById("myNav").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("myNav").style.width = "0";
+  }
+
+  function logout() {
+    window.location.href = "index.html";
+  }
+
+  fetch('http://localhost:3000/api/admin-testdrives')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("testdriveList");
+      const testDrives = data.testDrives;
+
+      if (!Array.isArray(testDrives) || testDrives.length === 0) {
+        container.innerHTML = "<p>No upcoming test drives.</p>";
+        return;
+      }
+
+      
+
+      // Build the table with headers
+      let tableHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Vehicle Name</th>
+              <th>Customer Name</th>
+              <th>Date</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      testDrives.forEach(drive => {
+        tableHTML += `
+          <tr>
+            <td>${drive.name}</td>
+            <td>${drive.customer_name}</td>
+            <td>${new Date(drive.date).toDateString()}</td>
+            <td>${drive.type}</td>
+          </tr>
+        `;
+      });
+
+      tableHTML += `</tbody></table>`;
+      container.innerHTML = tableHTML;
+    })
+    .catch(err => {
+      console.error('Error fetching test drives:', err);
+      const container = document.getElementById("testdriveList");
+      container.innerHTML = "<p>Error loading test drives. Please try again later.</p>";
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="navBar.css"/>
+  <link rel="stylesheet" href="cars.css"/>
+  <script src="index.js"></script>
+  <title>Document</title>
+  
+  <style>
+    /* General Styles */
+body {
+  font-family: 'Playfair Display', serif;
+  background-color: #0a1d37; /* Navy background */
+  color: white;
+}
+
+#sellBikeForm {
+  width: 70%;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 40px 50px;
+  background-color: #ffffff; /* White background */
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(218, 165, 32, 0.6);
+  color: #0a1d37; /* Navy text color */
+}
+
+h2 {
+  color: goldenrod;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: goldenrod;
+  font-weight: bold;
+}
+
+#sellBikeForm input {
+  padding: 14px 16px;
+  border: 1.5px solid goldenrod;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  background-color: #ffffff;
+  color: #0a1d37;
+  margin-bottom: 15px;
+}
+
+#sellBikeForm input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+#sellBikeForm button {
+  width: 100%;
+  padding: 16px;
+  background-color: goldenrod;
+  color: #0a1d37;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#sellBikeForm button:hover {
+  background-color: #ffd700;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px goldenrod;
+}
+
+#sellBikeForm input[type="checkbox"] {
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+label[for="confirm"] {
+  color: goldenrod;
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  #sellBikeForm {
+    width: 90%;
+    padding: 30px 40px;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  #sellBikeForm input, #sellBikeForm button {
+    font-size: 1rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <div id="headerIndex">
+    <button class="openbtn" onclick="openNav()"><i class="fas fa-bars"></i></button>
+    <div id="myDiv">
+      <a href="home.html">
+        <img src="Screenshot 2025-03-08 145444.png" alt="Infinity Motorsports" style="border: solid 1px goldenrod;">
+      </a>
+      <h2>Infinity Motorsports</h2>
+    </div>
+    <div id="myDiv">
+      <div id="searchBar">
+        <input type="text" id="searchValue" placeholder="Search">
+        <button onclick="search()"><i class="fas fa-search"></i></button>
+      </div>
+      <button onclick="logout()" id="login">
+        Logout
+      </button>
+    </div>
+  </div>
+
+  
+  <form id="sellBikeForm">
+    <h2 style="text-align: center; color: goldenrod;">Last Step to Purchase Your Dream Bike</h2>
+
+    <div class="form-group">
+      <label for="account">Bank Account Number</label>
+      <input type="text" id="account" name="account" placeholder="Enter your bank account number" required />
+    </div>
+
+    <div class="form-group">
+      <label for="bankPassword">Bank Account Password</label>
+      <input type="password" id="bankPassword" name="bankPassword" placeholder="Enter your bank password" required />
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="confirm" required />
+        I confirm that I want to purchase this bike and my bank details are correct.
+      </label>
+    </div>
+
+    <button type="submit">Proceed to Purchase</button>
+  </form>
+
+
+  <div id="footerIndex">
+    <div>
+      <h3>Contact Us</h3>
+      <h4>Email : mygmail@example.com</h4>
+      <h4>Contact : 0301 1234567</h4>
+      <h4>Address : Street 1, E-11/4, Islamabad</h4>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <h4><a href="cars.html">Browse Cars</a></h4>
+      <h4><a href="bikes.html">Browse Bikes</a></h4>
+      <h4><a href="home.html">About Us</a></h4>
+    </div>
+    <div>
+      <h3>Socials</h3>
+      <h4>Facebook : infinitymotorsports001</h4>
+      <h4>Instagaram : infinitymotorsports001</h4>
+      <h4>Twitter : infinitymotorsports001</h4>
+    </div>
+  </div>
+
+  <!-- Sidebar Nav -->
+  <div id="myNav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href='home.html'>Home</a>
+    <a href="cars.html">Cars</a>
+    <a href="bike.html">Bikes</a>
+    <a href="news.html">News</a>
+    <a href="testimonies.html">Testamonies</a>
+  </div>
+
+  <!-- Script -->
+  <script>
+    function openNav() {
+      document.getElementById("myNav").style.width = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("myNav").style.width = "0";
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const bike_id = params.get("id");
+    const userEmail = localStorage.getItem("userEmail"); // Set this in login/signup
+
+    document.getElementById("sellBikeForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const account = document.getElementById("account").value;
+      const bankPassword = document.getElementById("bankPassword").value;
+      const confirmed = document.getElementById("confirm").checked;
+
+      if (!confirmed) {
+        alert("Please confirm the checkbox before proceeding.");
+        return;
+      }
+
+      const currentDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+      
+
+const data = {
+  bike_id,
+   userEmail,
+  account,
+   currentDate
+};
+
+
+
+
+      try {
+        const res = await fetch("http://localhost:3000/purchase-bike", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        
+        const response = await res.json();
+        alert(response.message);
+        window.location.href= `bike_review.html?id=${bike_id}`;
+        
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Something went wrong while processing your request.");
+      }
+    });
+  </script>
+</body>
+
+</html>

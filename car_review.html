@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="navBar.css"/>
+  <script src="index.js"></script>
+  <title>Document</title>
+  <style>
+    #reviewForm {
+  width: 70%;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 40px 50px;
+  background-color: #0a1d37; /* Deep Navy */
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(218, 165, 32, 0.5); /* Golden glow */
+  font-family: 'Playfair Display', serif;
+  color: white;
+}
+
+#reviewForm label {
+  display: block;
+  font-size: 1rem;
+  margin: 12px 0 6px;
+  color: goldenrod;
+  font-weight: bold;
+}
+
+#reviewForm input[type="number"],
+#reviewForm textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid goldenrod;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Playfair Display', serif;
+  background-color: #ffffff;
+  color: #0a1d37;
+  margin-bottom: 20px;
+}
+
+#reviewForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+#reviewForm button {
+  width: 100%;
+  padding: 14px;
+  background-color: goldenrod;
+  color: #0a1d37;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  font-family: 'Playfair Display', serif;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#reviewForm button:hover {
+  background-color: #ffd700;
+  transform: scale(1.03);
+  box-shadow: 0 0 12px goldenrod;
+}
+
+  </style>
+</head>
+<body>
+
+<div id="headerIndex">
+  <button class="openbtn" onclick="openNav()"><i class="fas fa-bars"></i></button>
+  <div id="myDiv">
+    <a href="home.html">
+      <img src="Screenshot 2025-03-08 145444.png" alt="Infinity Motorsports" style="border: solid 1px goldenrod;">
+    </a>
+    <h2>Infinity Motorsports</h2>
+  </div>
+  <div id="myDiv">
+    <div id="searchBar">
+      <input type="text" id="searchValue" placeholder="Search">
+      <button onclick="search()"><i class="fas fa-search"></i></button>
+    </div>
+    <button onclick="logout()" id="login">
+      Logout
+    </button>
+  </div>
+</div>
+
+<form id="reviewForm">
+    <h1>Rate Our Services and Your Experience</h1>
+    <label for="rating">Rating (1-5):</label>
+    <input type="number" id="rating" min="1" max="5" required><br>
+  
+    <label for="comment">Comment:</label><br>
+    <textarea id="comment" required></textarea><br>
+  
+    <button type="submit">Submit Review</button>
+  </form>
+  
+
+<div id="footerIndex">
+  <div>
+    <h3>Contact Us</h3>
+    <h4>Email : mygmail@example.com</h4>
+    <h4>Contact : 0301 1234567</h4>
+    <h4>Address : Street 1, E-11/4, Islamabad</h4>
+  </div>
+  <div>
+    <h3>Quick Links</h3>
+    <h4><a href="cars.html">Browse Cars</a></h4>
+    <h4><a href="bikes.html">Browse Bikes</a></h4>
+    <h4><a href="home.html">About Us</a></h4>
+  </div>
+  <div>
+    <h3>Socials</h3>
+    <h4>Facebook : infinitymotorsports001</h4>
+    <h4>Instagaram : infinitymotorsports001</h4>
+    <h4>Twitter : infinitymotorsports001</h4>
+  </div>
+</div>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='home.html'>Home</a>
+  <a href="cars.html">Cars</a>
+  <a href="bike.html">Bikes</a>
+  <a href="news.html">News</a>
+  <a href="testimonies.html">Testamonies</a>
+</div>
+
+<script>
+   function openNav() {
+      document.getElementById("myNav").style.width = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("myNav").style.width = "0";
+    }
+
+ document.getElementById("reviewForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const rating = document.getElementById("rating").value;
+  const comment = document.getElementById("comment").value;
+  const userEmail = localStorage.getItem("userEmail");
+  const car_id = new URLSearchParams(window.location.search).get("id");
+
+  const reviewData = {
+    userEmail,
+    car_id,
+    rating,
+    comment
+  };
+
+  try {
+    const res = await fetch("http://localhost:3000/submit-review-car", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reviewData)
+    });
+
+    const result = await res.json();
+    alert(result.message);
+    window.location.href= "home.html";
+  } catch (err) {
+    console.error(err);
+    alert("Failed to submit review");
+  }
+});
+
+</script>
+</body>
+</html>

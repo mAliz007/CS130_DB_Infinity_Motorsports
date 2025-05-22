@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="navBar.css"/>
+  <link rel="stylesheet" href="cars.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script src="index.js"></script>
+  <title>Document</title>
+  <style>
+   
+    #testdriveForm {
+    width: 70%;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 40px 50px;
+    background-color: #0a1d37;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(218, 165, 32, 0.5);
+    font-family: 'Playfair Display', serif;
+    color: white;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: goldenrod;
+    font-weight: bold;
+  }
+  
+  #testdriveForm input {
+    padding: 12px 16px;
+    border: 1.5px solid goldenrod;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Playfair Display', serif;
+    background-color: #ffffff;
+    color: #0a1d37;
+  }
+  
+  #testdriveForm input::placeholder {
+    color: #999;
+    font-style: italic;
+  }
+  
+  #testdriveForm button {
+    width: 100%;
+    padding: 14px;
+    background-color: goldenrod;
+    color: #0a1d37;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  #testdriveForm button:hover {
+    background-color: #ffd700;
+    transform: scale(1.03);
+    box-shadow: 0 0 12px goldenrod;
+  }
+  
+  </style>
+</head>
+<body>
+
+<div id="headerIndex">
+  <button class="openbtn" onclick="openNav()"><i class="fas fa-bars"></i></button>
+  <div id="myDiv">
+    <a href="home.html">
+      <img src="Screenshot 2025-03-08 145444.png" alt="Infinity Motorsports" style="border: solid 1px goldenrod;">
+    </a>
+    <h2>Infinity Motorsports</h2>
+  </div>
+  <div id="myDiv">
+    <div id="searchBar">
+      <input type="text" id="searchValue" placeholder="Search">
+      <button onclick="search()"><i class="fas fa-search"></i></button>
+    </div>
+    <button onclick="logout()" id="login">
+      Logout
+    </button>
+  </div>
+</div>
+
+
+<form id="testdriveForm">
+  <h1>Book a Test Drive</h1>
+
+  <div class="form-group">
+    <label for="date">Preferred Date</label>
+    <input type="date" id="date" name="date" required />
+  </div>
+
+  <p style="color: goldenrod; font-size: 0.95rem;">
+    By booking a test drive, you agree to bring your original CNIC and arrive at least 15 minutes before the scheduled time.
+    You are responsible for any damage caused during the test drive. Infinity Motorsports holds the right to cancel or reschedule the test drive.
+  </p>
+
+  <div class="form-group">
+    <label>
+      <input type="checkbox" id="terms" required />
+      I have read and agree to the terms of agreement.
+    </label>
+  </div>
+
+  <button type="submit">Book Test Drive</button>
+</form>
+
+
+
+<div id="footerIndex">
+  <div>
+    <h3>Contact Us</h3>
+    <h4>Email : mygmail@example.com</h4>
+    <h4>Contact : 0301 1234567</h4>
+    <h4>Address : Street 1, E-11/4, Islamabad</h4>
+  </div>
+  <div>
+    <h3>Quick Links</h3>
+    <h4><a href="cars.html">Browse Cars</a></h4>
+    <h4><a href="bikes.html">Browse Bikes</a></h4>
+    <h4><a href="home.html">About Us</a></h4>
+  </div>
+  <div>
+    <h3>Socials</h3>
+    <h4>Facebook : infinitymotorsports001</h4>
+    <h4>Instagaram : infinitymotorsports001</h4>
+    <h4>Twitter : infinitymotorsports001</h4>
+  </div>
+</div>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='home.html'>Home</a>
+  <a href="cars.html">Cars</a>
+  <a href="bike.html">Bikes</a>
+  <a href="news.html">News</a>
+  <a href="testimonies.html">Testamonies</a>
+</div>
+
+<script>
+  function openNav() {
+    document.getElementById("myNav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("myNav").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+  }
+  const params = new URLSearchParams(window.location.search);
+  const bike_id = params.get("id");
+  const email = localStorage.getItem("userEmail"); // Make sure this is stored during login
+  console.log(email);
+  document.getElementById("testdriveForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (!bike_id || !email) {
+      alert("Missing bike ID or user login info.");
+      return;
+    }
+
+    const date = document.getElementById("date").value;
+    const agreed = document.getElementById("terms").checked;
+
+    if (!agreed) {
+      alert("You must agree to the terms before booking.");
+      return;
+    }
+
+    const data = {
+      date,
+      bike_id,
+      email
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/testdrive-bike", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const response = await res.json();
+      alert(response.message);
+
+      if (res.ok) {
+        e.target.reset();
+        window.location.href = 'home.html';
+      }
+    } catch (err) {
+      alert("Failed to book test drive.");
+      console.error(err);
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+#leftSecIndex h1{
+    font-weight: bolder;
+    font-size: 3rem;
+}
+
+#rightSecIndex{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+#rightSecIndex img{
+    width: 500px;
+}

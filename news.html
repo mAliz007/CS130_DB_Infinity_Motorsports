@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="navBar.css">
+    <link rel="stylesheet" href="news.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>News</title>
+</head>
+<body>
+
+       
+    <div id="headerIndex">
+        <button class="openbtn" onclick="openNav()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div id="myDiv">
+            <a href="home.html">
+            <img src="Screenshot 2025-03-08 145444.png" alt="Infinity Motorsports" style="border: solid 1px goldenrod;">
+        </a>
+            <h2>Infinity Motorsports</h2>
+        </div>
+
+        <div id="myDiv">        <div id="searchBar">
+            <input type="text" id="searchValue" placeholder="Search">
+            <button onclick="search()">
+                <i class="fas fa-search"></i> 
+            </button>
+        </div>
+        <button onclick="logout()" id="login">
+            Logout
+        </button>
+    </div>
+    </div>
+
+
+
+    <div id="myNav" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href='home.html'>Home</a>
+        <a href="cars.html">Cars</a>
+        <a href="bike.html">Bikes</a>
+        <a href="news.html">News</a>
+        <a href="testimonies.html">Testamonies</a>
+    </div>
+    
+    <h1>Latest Car News</h1>
+    
+    <div id="newsContainer" class="news-grid">
+        <!-- News Cards will be inserted here dynamically -->
+    </div>
+
+    
+
+    <div id="footerIndex">
+        <div>
+        <h3>Contact Us</h3>
+        <h4>Email : mygmail@example.com</h4>
+        <h4>Contact : 0301 1234567</h4>
+        <h4>Address : Street 1, E-11/4, Islamabad</h4>
+        </div>
+
+        <div>
+            <h3>Quick Links</h3>
+            <h4><a href="cars.html">Browse Cars</a></h4>
+            <h4><a href="bikes.html">Browse Bikes</a></h4>
+            <h4><a href="home.html">About Us</a></h4>
+        </div>
+
+        <div>
+        <h3>Socials</h3>
+        <h4>Facebook : infinitymotorsports001</h4>
+        <h4>Instagaram : infinitymotorsports001</h4>
+        <h4>Twitter : infinitymotorsports001</h4>
+        </div>
+
+    </div>
+
+    <script src="index.js"></script>
+    <script src="news.js"></script>
+</body>
+</html>

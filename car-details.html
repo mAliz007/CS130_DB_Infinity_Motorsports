@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="navBar.css"/>
+  <link rel="stylesheet" href="cars.css"/>
+  <script src="index.js"></script>
+  <title>Document</title>
+  <style>
+    /* Style for the Car Details section */
+#car-details {
+  max-width: 800px;
+  margin: 60px auto;
+  background-color: #ffffff;
+  border: 2px solid goldenrod;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  border-left: 5px solid navy;
+  border-right: 5px solid navy;
+}
+
+#car-details img {
+  width: 100%; /* This is good */
+  height: auto; /* Keep this */
+  border-radius: 12px; /* Optional */
+  object-fit: cover;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+  /* Add these: */
+  border: 2px solid goldenrod;
+  display: block;
+}
+
+
+.car-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#car-details h2 {
+  font-size: 36px;
+  color: #0c1f3c;
+  border-bottom: 3px solid goldenrod;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+#car-details p {
+  font-size: 18px;
+  color: #1e2a38;
+  margin: 8px 0;
+  line-height: 1.7;
+  font-family: 'Arial', sans-serif;
+}
+
+#car-details strong {
+  color: goldenrod;
+  font-weight: 600;
+}
+
+/* Style for the main heading */
+h1 {
+  text-align: center;
+  font-size: 40px;
+  color: #0c1f3c;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+/* Loading text styling */
+#car-details p {
+  font-size: 18px;
+  color: #1e2a38;
+  font-style: italic;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Button styles */
+.btn {
+  background-color: goldenrod;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 15px 30px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0c1f3c;
+}
+
+  </style>
+</head>
+<body>
+
+<div id="headerIndex">
+  <button class="openbtn" onclick="openNav()"><i class="fas fa-bars"></i></button>
+  <div id="myDiv">
+    <a href="home.html">
+      <img src="Screenshot 2025-03-08 145444.png" alt="Infinity Motorsports" style="border: solid 1px goldenrod;">
+    </a>
+    <h2>Infinity Motorsports</h2>
+  </div>
+  <div id="myDiv">
+    <div id="searchBar">
+      <input type="text" id="searchValue" placeholder="Search">
+      <button onclick="search()"><i class="fas fa-search"></i></button>
+    </div>
+    <button onclick="logout()" id="login">
+      Logout
+    </button>
+  </div>
+</div>
+
+<h1>Car Details</h1>
+<div id="car-details">
+  <p>Loading...</p>
+</div>
+
+<div id="footerIndex">
+  <div>
+    <h3>Contact Us</h3>
+    <h4>Email : mygmail@example.com</h4>
+    <h4>Contact : 0301 1234567</h4>
+    <h4>Address : Street 1, E-11/4, Islamabad</h4>
+  </div>
+  <div>
+    <h3>Quick Links</h3>
+    <h4><a href="cars.html">Browse Cars</a></h4>
+    <h4><a href="bike.html">Browse Bikes</a></h4>
+    <h4><a href="home.html">About Us</a></h4>
+  </div>
+  <div>
+    <h3>Socials</h3>
+    <h4>Facebook : infinitymotorsports001</h4>
+    <h4>Instagaram : infinitymotorsports001</h4>
+    <h4>Twitter : infinitymotorsports001</h4>
+  </div>
+</div>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='home.html'>Home</a>
+  <a href="cars.html">Cars</a>
+  <a href="bike.html">Bikes</a>
+  <a href="news.html">News</a>
+  <a href="testimonies.html">Testamonies</a>
+</div>
+
+<script>
+  function openNav() {
+    document.getElementById("myNav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("myNav").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const car_id = params.get("id");
+
+    fetch(`http://localhost:3000/cars/${car_id}`)
+      .then(res => res.json())
+      .then(mycar => {
+        console.log("Fetched car:", mycar);
+        const car = mycar.data
+        document.getElementById("car-details").innerHTML = `
+          <h2>${car.name}</h2>
+          <img src="${car.image_url}" alt="${car.name}">
+          <p><strong>Company:</strong> ${car.name}</p>
+          <p><strong>Model:</strong> ${car.model}</p>
+          <p><strong>Price:</strong> ${Number(car.price).toLocaleString()}</p>
+          <p><strong>Model Year:</strong> ${car.model_year}</p>
+          <p><strong>Enigine Capacity:</strong> ${car.engine_capacity}</p>
+          <p><strong>Registration Number:</strong> ${car.registration_number}</p>          
+          <p><strong>Description:</strong> ${car.car_description || 'No description available.'}</p>
+          <h2>Warranty Package Details</h2>
+          <p><strong>Duration:</strong> ${car.period } years</p>
+          <p><strong>Max Damages Covered:</strong> ${Number(car.amount_covered).toLocaleString()}$</p>
+          <h2>Insurance Package Details</h2>
+          <p><strong>Monthly Fee:</strong> ${Number(car.fee).toLocaleString()} $</p>
+          <p><strong>Coverage:</strong> ${Number(car.insurance_amount_covered).toLocaleString()} $</p>
+         <button onclick="window.location.href='purchase_form_car.html?id=${car.car_id}'" class="btn">Purchase</button>
+         <button onclick="window.location.href='testdrive_form_car.html?id=${car.car_id}'" class="btn">Book Test Drive</button>
+
+        `;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById("bike-details").innerHTML = "<p>Bike not found.</p>";
+      });
+</script>
+</body>
+</html>

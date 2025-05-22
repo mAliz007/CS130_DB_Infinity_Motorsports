@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="navBar.css"/>
+  <link rel="stylesheet" href="cars.css"/>
+  <script src="index.js"></script>
+  <title>Admin Home</title>
+<style>
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+
+.deleteBtn {
+  background-color: #e63946;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.deleteBtn:hover {
+  background-color: #c82333;
+}
+
+.heading {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.heading h1 {
+  font-size: 2rem;
+  color: #2d3436;
+  margin-bottom: 20px;
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.filter-buttons button {
+  background-color: grey;
+  color: white;
+  border: none;
+  box-shadow: #555 2px 2px 2px 2px ;
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-buttons button:hover {
+  background-color: #39393a;
+}
+
+.card img {
+  width: 160px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+.card-content {
+  flex-grow: 1;
+}
+
+.card-content h3 {
+  margin: 0 0 6px;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.card-content p {
+  margin: 3px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+</style>
+
+</head>
+<body>
+
+<div id="headerIndex">
+  <button class="openbtn" onclick="openNav()"><i class="fas fa-bars"></i></button>
+  <div id="myDiv">
+    <a href="admin-home.html">
+      <img src="Screenshot 2025-03-08 145444.png" alt="Infinity Motorsports" style="border: solid 1px goldenrod;">
+    </a>
+    <h2>Infinity Motorsports</h2>
+  </div>
+  <div id="myDiv">
+    <button onclick="logout()" id="login">Logout</button>
+  </div>
+</div>
+<div class="heading"><h1>Available Vehicles</h1></div>
+
+<div class="filter-buttons">
+  <button onclick="filter('car')">Filter By Car</button>
+  <button onclick="filter('all')">Show All</button>
+  <button onclick="filter('bike')">Filter By Bike</button>
+</div>
+<div id="display" class="card-container"></div>
+
+<div id="footerIndex">
+  <h2>Please Be Cautious While Using The Admin Portal</h2>
+</div>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='admin-home.html'>Home</a>
+  <a href="add-car.html">Add a Car</a>
+  <a href="add-bike.html">Add a Bike</a>
+  <a href="add-warranty.html">Add Warranty Package</a>
+  <a href="add-insurance.html">Add Insurance Package</a>
+  <a href="sales.html">View Sales</a>
+  <a href="customers.html">View Customers</a>
+  <a href="admin-testdrives.html">Upcoming Test Drives</a>
+</div>
+
+<script>
+
+  let allVehicles = []; // To store all vehicles for filtering later
+  const container = document.getElementById("display");
+
+  // Function to create the vehicle card
+  function createVehicleCard(vehicle) {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${vehicle.image_url}" alt="${vehicle.name}" />
+      <div class="card-content">
+        <h3>${vehicle.name}</h3>
+        <p><strong>Model:</strong> ${vehicle.model}</p>
+        <p><strong>Price:</strong> ${Number(vehicle.price).toLocaleString()}</p>
+        <p><strong>Type:</strong> ${vehicle.type}</p>
+      </div>
+      <button class="deleteBtn">Delete</button>
+    `;
+
+    const deleteBtn = card.querySelector(".deleteBtn");
+    deleteBtn.addEventListener("click", () => {
+      if (confirm(`Are you sure you want to delete this ${vehicle.type}?`)) {
+        fetch(`http://localhost:3000/api/admin-vehicles/${vehicle.type}/${vehicle.car_id || vehicle.bike_id}`, {
+          method: "DELETE"
+        })
+          .then(res => res.json())
+          .then(data => {
+            alert(data.message);
+            card.remove();
+          })
+          .catch(err => {
+            console.error(err);
+            alert("Failed to delete vehicle.");
+          });
+      }
+    });
+
+    container.appendChild(card);
+  }
+
+  // Function to display filtered vehicles
+  function displayVehicles(filteredVehicles) {
+    container.innerHTML = ""; // Clear previous cards
+    filteredVehicles.forEach(createVehicleCard);
+  }
+
+  // Function to handle filter button click
+  function filter(type) {
+    if (type === 'all') {
+      displayVehicles(allVehicles);
+    } else {
+      const filtered = allVehicles.filter(vehicle => vehicle.type === type);
+      displayVehicles(filtered);
+    }
+  }
+
+  // Fetch vehicles on page load
+  fetch("http://localhost:3000/api/admin-vehicles")
+    .then(res => res.json())
+    .then(result => {
+      const cars = result.cars.map(car => ({ ...car, type: 'car' }));
+      const bikes = result.bikes.map(bike => ({ ...bike, type: 'bike' }));
+
+      allVehicles = [...cars, ...bikes]; // Store all for filtering
+      displayVehicles(allVehicles); // Initial display
+    })
+    .catch(error => {
+      console.error("Failed to load vehicles:", error);
+    });
+</script>
+
+
+</body>
+</html>

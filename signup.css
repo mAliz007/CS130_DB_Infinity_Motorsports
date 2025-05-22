@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0a192f; /* Deep Navy Blue */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensures full height */
+    margin: 0;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 25px;
+    border-radius: 10px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(255, 136, 0, 0.5); /* Copper shadow */
+    position: relative;
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #ff8800; /* Copper Accent */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adds spacing between inputs */
+}
+
+label {
+    text-align: left;
+    font-size: 14px;
+}
+
+input, textarea {
+    padding: 10px;
+    border: 1px solid #ff8800;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+textarea {
+    resize: none;
+    height: 60px;
+}
+
+input[type="submit"] {
+    background-color: #ff8800;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+input[type="submit"]:hover {
+    background-color: #cc6d00; /* Darker Copper */
+}
+
+p {
+    margin-top: 15px;
+}
+
+p a {
+    color: #ff8800;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+p a:hover {
+    text-decoration: underline;
+}

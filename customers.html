@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <link rel="stylesheet" href="navBar.css"/>
+  <link rel="stylesheet" href="cars.css"/>
+  <script src="index.js"></script>
+  <title>Admin Home</title>
+<style>
+
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+#salesh {
+  text-align: center;
+  margin-top: 20px;
+  color: navy;
+}
+
+</style>
+</head>
+<body>
+
+<div id="headerIndex">
+  <button class="openbtn" onclick="openNav()"><i class="fas fa-bars"></i></button>
+  <div id="myDiv">
+    <a href="home.html">
+      <img src="Screenshot 2025-03-08 145444.png" alt="Infinity Motorsports" style="border: solid 1px goldenrod;">
+    </a>
+    <h2>Infinity Motorsports</h2>
+  </div>
+  <div id="myDiv">
+    <button onclick="logout()" id="login">Logout</button>
+  </div>
+</div>
+
+<div class="container">
+<h2 id="salesh">Registered Customers</h2>
+    <table id="customersTable">
+      <thead>
+        <tr>
+          <th>CNIC</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+ <tbody>
+        <!-- Customers will be populated here -->
+      </tbody>
+    </table>
+  </div>
+
+<div id="footerIndex">
+  <h2>Please Be Cautious While Using The Admin Portal</h2>
+</div>
+
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href='admin-home.html'>Home</a>
+  <a href="add-car.html">Add a Car</a>
+  <a href="add-bike.html">Add a Bike</a>
+  <a href="add-warranty.html">Add Warranty Package</a>
+  <a href="add-insurance.html">Add Insurance Package</a>
+  <a href="sales.html">View Sales</a>
+  <a href="customers.html">View Customers</a>
+  <a href="admin-testdrives.html">Upcoming Test Drives</a>
+</div>
+
+<script>
+    async function fetchCustomers() {
+      try {
+        const response = await fetch("http://localhost:3000/customers");
+        const customers = await response.json();
+
+        const tbody = document.getElementById("customersTable").querySelector("tbody");
+        tbody.innerHTML = "";
+
+        customers.forEach(customer => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${customer.cnic}</td>
+            <td>${customer.name}</td>
+            <td>${customer.email}</td>
+            <td>${customer.number}</td>
+            <td>${customer.address}</td>
+          `;
+          tbody.appendChild(row);
+        });
+
+      } catch (error) {
+        console.error("Failed to fetch customers:", error);
+        alert("Could not load customer data.");
+      }
+    }
+
+    fetchCustomers();
+  </script>
+
+
+</body>
+</html>
